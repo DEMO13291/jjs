@@ -1,21 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Website</title>
+    <title>Interactive Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Base Styles */
+        /* Base Styles with CSS Variables */
         :root {
-            --primary-color: #4361ee;
-            --secondary-color: #3f37c9;
-            --accent-color: #4cc9f0;
-            --light-color: #f8f9fa;
-            --dark-color: #212529;
-            --success-color: #4bb543;
-            --border-radius: 12px;
+            /* Light Theme */
+            --primary-light: #4361ee;
+            --secondary-light: #3f37c9;
+            --accent-light: #4cc9f0;
+            --text-light: #212529;
+            --bg-light: #f8f9fa;
+            --card-light: #ffffff;
+            --success-light: #4bb543;
+            --warning-light: #f8961e;
+            --error-light: #f94144;
+            
+            /* Dark Theme */
+            --primary-dark: #7209b7;
+            --secondary-dark: #560bad;
+            --accent-dark: #b5179e;
+            --text-dark: #f8f9fa;
+            --bg-dark: #121212;
+            --card-dark: #1e1e1e;
+            --success-dark: #80ed99;
+            --warning-dark: #ffd166;
+            --error-dark: #ef476f;
+            
+            /* Common */
+            --border-radius: 16px;
             --box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-            --transition: all 0.3s ease;
+            --box-shadow-dark: 0 8px 20px rgba(0,0,0,0.3);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --transition-fast: all 0.15s ease;
         }
         
         * {
@@ -25,56 +45,118 @@
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            color: var(--dark-color);
-            line-height: 1.6;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 2rem;
+            transition: var(--transition);
+        }
+        
+        /* Theme Variables */
+        body[data-theme="light"] {
+            --primary-color: var(--primary-light);
+            --secondary-color: var(--secondary-light);
+            --accent-color: var(--accent-light);
+            --text-color: var(--text-light);
+            --bg-color: var(--bg-light);
+            --card-color: var(--card-light);
+            --success-color: var(--success-light);
+            --warning-color: var(--warning-light);
+            --error-color: var(--error-light);
+            --box-shadow-current: var(--box-shadow);
+        }
+        
+        body[data-theme="dark"] {
+            --primary-color: var(--primary-dark);
+            --secondary-color: var(--secondary-dark);
+            --accent-color: var(--accent-dark);
+            --text-color: var(--text-dark);
+            --bg-color: var(--bg-dark);
+            --card-color: var(--card-dark);
+            --success-color: var(--success-dark);
+            --warning-color: var(--warning-dark);
+            --error-color: var(--error-dark);
+            --box-shadow-current: var(--box-shadow-dark);
         }
         
         /* Header Styles */
         .header {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
             animation: fadeInDown 0.8s ease;
+            position: relative;
+            width: 100%;
+            max-width: 800px;
         }
         
         .header h1 {
-            font-size: 2.5rem;
-            color: var(--secondary-color);
-            margin-bottom: 0.5rem;
-            background: linear-gradient(to right, #4361ee, #3a0ca3);
+            font-size: 3rem;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 800;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
         }
         
         .header p {
-            color: #6c757d;
-            font-size: 1.1rem;
+            color: var(--text-color);
+            opacity: 0.8;
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Theme Toggle */
+        .theme-toggle {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--card-color);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--box-shadow-current);
+            transition: var(--transition);
+            color: var(--text-color);
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        .theme-toggle:active {
+            transform: scale(0.95);
         }
         
         /* Image Container */
         .image-container {
             width: 100%;
-            max-width: 600px;
-            margin: 1.5rem auto;
+            max-width: 700px;
+            margin: 2rem auto;
             border-radius: var(--border-radius);
             overflow: hidden;
-            box-shadow: var(--box-shadow);
+            box-shadow: var(--box-shadow-current);
             transition: var(--transition);
             animation: fadeIn 1s ease;
-            border: 5px solid white;
+            border: none;
+            position: relative;
         }
         
         .image-container:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
         }
         
         .image-container img {
@@ -84,54 +166,106 @@
             transition: var(--transition);
         }
         
+        .image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            color: white;
+            padding: 1.5rem;
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .image-container:hover .image-overlay {
+            opacity: 1;
+        }
+        
         /* Greeting Section */
         .greeting {
-            background-color: white;
-            padding: 1.5rem 2rem;
+            background-color: var(--card-color);
+            padding: 2rem;
             border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            margin: 1.5rem 0;
+            box-shadow: var(--box-shadow-current);
+            margin: 2rem 0;
             width: 100%;
-            max-width: 600px;
+            max-width: 700px;
             text-align: center;
-            font-size: 1.3rem;
-            color: var(--secondary-color);
+            font-size: 1.4rem;
+            color: var(--text-color);
             transition: var(--transition);
             animation: fadeInUp 0.8s ease;
-            border-left: 5px solid var(--accent-color);
+            border-left: 6px solid var(--accent-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .greeting::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(76, 201, 240, 0.1) 0%, transparent 100%);
+            z-index: 0;
+        }
+        
+        .greeting-content {
+            position: relative;
+            z-index: 1;
         }
         
         /* Menu Styles */
         .menu {
             display: none;
-            background-color: white;
-            padding: 2rem;
+            background-color: var(--card-color);
+            padding: 2.5rem;
             border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            margin: 1.5rem auto;
+            box-shadow: var(--box-shadow-current);
+            margin: 2rem auto;
             width: 100%;
-            max-width: 600px;
+            max-width: 700px;
             animation: fadeIn 0.5s ease;
         }
         
         .menu h2 {
-            color: var(--secondary-color);
-            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
             text-align: center;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
         
         .form-group {
             margin-bottom: 1.5rem;
         }
         
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-color);
+            opacity: 0.9;
+        }
+        
         .form-control {
             width: 100%;
-            padding: 0.8rem 1rem;
+            padding: 1rem;
             font-size: 1rem;
-            border: 2px solid #e9ecef;
+            border: 2px solid rgba(0,0,0,0.1);
             border-radius: var(--border-radius);
             transition: var(--transition);
+            background-color: var(--card-color);
+            color: var(--text-color);
         }
         
         .form-control:focus {
@@ -144,7 +278,7 @@
             display: inline-block;
             background-color: var(--primary-color);
             color: white;
-            padding: 0.8rem 1.8rem;
+            padding: 1rem 2rem;
             border: none;
             border-radius: var(--border-radius);
             font-size: 1rem;
@@ -159,28 +293,74 @@
         .btn:hover {
             background-color: var(--secondary-color);
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
         
         .btn:active {
             transform: translateY(0);
         }
         
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* Color Picker */
+        .color-options {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: var(--transition-fast);
+        }
+        
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+        
+        .color-option.active {
+            border-color: var(--text-color);
+            transform: scale(1.1);
+        }
+        
         /* Instructions */
         .instructions {
             text-align: center;
-            color: #6c757d;
-            font-size: 0.9rem;
-            margin-top: 1.5rem;
+            color: var(--text-color);
+            opacity: 0.7;
+            font-size: 0.95rem;
+            margin-top: 2rem;
             animation: fadeIn 1.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
         
         .instructions kbd {
-            background-color: var(--dark-color);
+            background-color: var(--primary-color);
             color: white;
-            padding: 0.2rem 0.4rem;
-            border-radius: 4px;
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
             font-family: monospace;
             font-size: 0.9em;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 24px;
         }
         
         /* Animations */
@@ -192,7 +372,7 @@
         @keyframes fadeInDown {
             from {
                 opacity: 0;
-                transform: translateY(-20px);
+                transform: translateY(-30px);
             }
             to {
                 opacity: 1;
@@ -203,7 +383,7 @@
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -211,114 +391,341 @@
             }
         }
         
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--success-color);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow-current);
+            z-index: 1000;
+            transform: translateX(200%);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
         /* Responsive Design */
         @media (max-width: 768px) {
             body {
-                padding: 1rem;
+                padding: 1.5rem;
             }
             
             .header h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
+                margin-top: 1.5rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+            
+            .theme-toggle {
+                top: 10px;
+                right: 10px;
             }
             
             .greeting {
-                padding: 1rem;
-                font-size: 1.1rem;
+                padding: 1.5rem;
+                font-size: 1.2rem;
             }
             
             .menu {
                 padding: 1.5rem;
+            }
+            
+            .menu-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
     <header class="header">
-        <h1>Interactive Website</h1>
-        <p>Customize your experience with our interactive features</p>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <h1>Interactive Portal</h1>
+        <p>Customize every aspect of your experience with our advanced controls</p>
     </header>
     
     <div class="image-container">
-        <!-- Replace with your actual image URL -->
-        <img src="https://source.unsplash.com/random/600x400?technology" alt="Featured Image">
+        <img src="https://source.unsplash.com/random/1200x800?future,technology" alt="Featured Image">
+        <div class="image-overlay">
+            <h3>Interactive Experience</h3>
+            <p>Press Q to customize this portal</p>
+        </div>
     </div>
     
-    <div class="greeting" id="greeting">Hi there! Welcome to our interactive website. Feel free to customize this message!</div>
+    <div class="greeting">
+        <div class="greeting-content" id="greeting">
+            Welcome to your personalized portal! Customize this message and more using the control panel.
+        </div>
+    </div>
     
     <div class="menu" id="menu">
-        <h2>Customize Content</h2>
-        <div class="form-group">
-            <input type="text" class="form-control" id="new-text" placeholder="Enter your custom message...">
+        <h2>Control Panel</h2>
+        
+        <div class="menu-grid">
+            <div class="form-group">
+                <label for="new-text">Custom Message</label>
+                <input type="text" class="form-control" id="new-text" placeholder="Enter your custom message...">
+            </div>
+            
+            <div class="form-group">
+                <label for="text-color">Text Color</label>
+                <select class="form-control" id="text-color">
+                    <option value="">Default</option>
+                    <option value="var(--primary-color)">Primary</option>
+                    <option value="var(--accent-color)">Accent</option>
+                    <option value="var(--success-color)">Success</option>
+                    <option value="#ff0000">Red</option>
+                    <option value="#00ff00">Green</option>
+                    <option value="#0000ff">Blue</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="font-size">Font Size</label>
+                <select class="form-control" id="font-size">
+                    <option value="1rem">Normal</option>
+                    <option value="1.2rem">Large</option>
+                    <option value="1.5rem">Extra Large</option>
+                    <option value="0.9rem">Small</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Accent Color</label>
+                <div class="color-options">
+                    <div class="color-option active" style="background-color: #4cc9f0;" data-color="#4cc9f0"></div>
+                    <div class="color-option" style="background-color: #7209b7;" data-color="#7209b7"></div>
+                    <div class="color-option" style="background-color: #f8961e;" data-color="#f8961e"></div>
+                    <div class="color-option" style="background-color: #43aa8b;" data-color="#43aa8b"></div>
+                    <div class="color-option" style="background-color: #f94144;" data-color="#f94144"></div>
+                </div>
+            </div>
         </div>
-        <button class="btn" id="update-btn">Update Message</button>
+        
+        <button class="btn" id="update-btn">
+            <i class="fas fa-save"></i> Apply Changes
+        </button>
+        
+        <button class="btn btn-secondary" id="reset-btn" style="margin-top: 1rem;">
+            <i class="fas fa-undo"></i> Reset to Defaults
+        </button>
     </div>
     
     <div class="instructions">
-        Press <kbd>Q</kbd> to toggle the customization menu
+        <span>Press <kbd>Q</kbd> to toggle control panel</span>
+        <span>•</span>
+        <span><kbd><i class="fas fa-palette"></i></kbd> to change theme</span>
+    </div>
+    
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span>Changes saved successfully!</span>
     </div>
     
     <script>
-        // Track if menu is visible
-        let menuVisible = false;
-        
-        // Get DOM elements
+        // DOM Elements
+        const themeToggle = document.getElementById('theme-toggle');
         const greetingElement = document.getElementById('greeting');
         const menuElement = document.getElementById('menu');
         const newTextInput = document.getElementById('new-text');
+        const textColorSelect = document.getElementById('text-color');
+        const fontSizeSelect = document.getElementById('font-size');
         const updateButton = document.getElementById('update-btn');
+        const resetButton = document.getElementById('reset-btn');
+        const colorOptions = document.querySelectorAll('.color-option');
+        const notification = document.getElementById('notification');
         
-        // Update text function
-        function updateText() {
-            const newText = newTextInput.value.trim();
-            if (newText) {
-                greetingElement.textContent = newText;
-                newTextInput.value = '';
-                
-                // Add visual feedback
-                greetingElement.style.animation = 'none';
-                void greetingElement.offsetWidth; // Trigger reflow
-                greetingElement.style.animation = 'fadeInUp 0.5s ease';
-                
-                // Show success message
-                const originalText = greetingElement.textContent;
-                greetingElement.textContent = 'Message updated successfully!';
-                greetingElement.style.color = 'var(--success-color)';
-                
-                setTimeout(() => {
-                    greetingElement.textContent = originalText;
-                    greetingElement.style.color = '';
-                }, 1500);
-            }
+        // State
+        let menuVisible = false;
+        let currentTheme = localStorage.getItem('theme') || 'light';
+        let savedGreeting = localStorage.getItem('greeting') || greetingElement.textContent;
+        let savedTextColor = localStorage.getItem('textColor') || '';
+        let savedFontSize = localStorage.getItem('fontSize') || '1rem';
+        let savedAccentColor = localStorage.getItem('accentColor') || '#4cc9f0';
+        
+        // Initialize
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        updateThemeIcon();
+        greetingElement.textContent = savedGreeting;
+        applyTextColor(savedTextColor);
+        applyFontSize(savedFontSize);
+        applyAccentColor(savedAccentColor);
+        
+        // Theme Toggle
+        themeToggle.addEventListener('click', toggleTheme);
+        
+        function toggleTheme() {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            localStorage.setItem('theme', currentTheme);
+            updateThemeIcon();
+            showNotification('Theme changed');
         }
         
-        // Toggle menu visibility
+        function updateThemeIcon() {
+            const icon = themeToggle.querySelector('i');
+            icon.className = currentTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+        }
+        
+        // Color Options
+        colorOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                colorOptions.forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                savedAccentColor = this.dataset.color;
+                applyAccentColor(savedAccentColor);
+            });
+        });
+        
+        // Apply accent color
+        function applyAccentColor(color) {
+            document.documentElement.style.setProperty('--accent-color', color);
+            const greeting = document.querySelector('.greeting');
+            greeting.style.borderLeftColor = color;
+        }
+        
+        // Apply text color
+        function applyTextColor(color) {
+            greetingElement.style.color = color || 'var(--text-color)';
+        }
+        
+        // Apply font size
+        function applyFontSize(size) {
+            greetingElement.style.fontSize = size;
+        }
+        
+        // Update all settings
+        function updateSettings() {
+            const newText = newTextInput.value.trim();
+            const textColor = textColorSelect.value;
+            const fontSize = fontSizeSelect.value;
+            
+            if (newText) {
+                savedGreeting = newText;
+                greetingElement.textContent = newText;
+                newTextInput.value = '';
+                localStorage.setItem('greeting', newText);
+            }
+            
+            if (textColor) {
+                savedTextColor = textColor;
+                applyTextColor(textColor);
+                localStorage.setItem('textColor', textColor);
+            }
+            
+            if (fontSize) {
+                savedFontSize = fontSize;
+                applyFontSize(fontSize);
+                localStorage.setItem('fontSize', fontSize);
+            }
+            
+            localStorage.setItem('accentColor', savedAccentColor);
+            
+            // Animate greeting
+            greetingElement.style.animation = 'none';
+            void greetingElement.offsetWidth;
+            greetingElement.style.animation = 'pulse 0.5s ease';
+            
+            showNotification('Changes saved successfully!');
+        }
+        
+        // Reset to defaults
+        function resetSettings() {
+            savedGreeting = "Welcome to your personalized portal! Customize this message and more using the control panel.";
+            savedTextColor = '';
+            savedFontSize = '1rem';
+            savedAccentColor = '#4cc9f0';
+            
+            greetingElement.textContent = savedGreeting;
+            applyTextColor(savedTextColor);
+            applyFontSize(savedFontSize);
+            applyAccentColor(savedAccentColor);
+            
+            newTextInput.value = '';
+            textColorSelect.value = '';
+            fontSizeSelect.value = '1rem';
+            
+            // Reset color options
+            colorOptions.forEach(option => {
+                option.classList.remove('active');
+                if (option.dataset.color === '#4cc9f0') {
+                    option.classList.add('active');
+                }
+            });
+            
+            localStorage.removeItem('greeting');
+            localStorage.removeItem('textColor');
+            localStorage.removeItem('fontSize');
+            localStorage.removeItem('accentColor');
+            
+            showNotification('Settings reset to defaults');
+        }
+        
+        // Toggle menu
         function toggleMenu() {
             menuVisible = !menuVisible;
             menuElement.style.display = menuVisible ? 'block' : 'none';
             
-            // Add animation when showing
             if (menuVisible) {
                 menuElement.style.animation = 'none';
-                void menuElement.offsetWidth; // Trigger reflow
+                void menuElement.offsetWidth;
                 menuElement.style.animation = 'fadeIn 0.3s ease';
             }
         }
         
-        // Event listeners
-        updateButton.addEventListener('click', updateText);
+        // Show notification
+        function showNotification(message) {
+            const notificationText = notification.querySelector('span:last-child');
+            notificationText.textContent = message;
+            
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
         
-        // Also update when pressing Enter in the input field
+        // Event listeners
+        updateButton.addEventListener('click', updateSettings);
+        resetButton.addEventListener('click', resetSettings);
+        
+        // Update when pressing Enter in the input field
         newTextInput.addEventListener('keypress', function(event) {
             if (event.key === 'Enter') {
-                updateText();
+                updateSettings();
             }
         });
         
-        // Keyboard event listener for Q key
+        // Keyboard event listeners
         document.addEventListener('keydown', function(event) {
+            // Q for menu
             if (event.key.toLowerCase() === 'q') {
                 toggleMenu();
-                event.preventDefault(); // Prevent default behavior
+                event.preventDefault();
+            }
+            
+            // T for theme toggle
+            if (event.key.toLowerCase() === 't') {
+                toggleTheme();
+                event.preventDefault();
             }
         });
     </script>
