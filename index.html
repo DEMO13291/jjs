@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        
+        #image-container {
+            margin: 20px 0;
+            max-width: 500px;
+            border: 3px solid #333;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        #image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        #greeting {
+            font-size: 24px;
+            margin: 20px 0;
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        #menu {
+            display: none;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            margin-top: 20px;
+            width: 80%;
+            max-width: 500px;
+        }
+        
+        #menu h2 {
+            margin-top: 0;
+        }
+        
+        #new-text {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        #instructions {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to My Website</h1>
+    
+    <div id="image-container">
+        <!-- Replace with your actual image URL -->
+        <img src="https://via.placeholder.com/500x300" alt="Featured Image">
+    </div>
+    
+    <div id="greeting">Hi! Welcome to our website.</div>
+    
+    <div id="menu">
+        <h2>Customize Text</h2>
+        <input type="text" id="new-text" placeholder="Enter new text...">
+        <button id="update-btn">Update Text</button>
+    </div>
+    
+    <div id="instructions">Press 'Q' to show/hide the customization menu</div>
+    
+    <script>
+        // Track if menu is visible
+        let menuVisible = false;
+        
+        // Get DOM elements
+        const greetingElement = document.getElementById('greeting');
+        const menuElement = document.getElementById('menu');
+        const newTextInput = document.getElementById('new-text');
+        const updateButton = document.getElementById('update-btn');
+        
+        // Update text function
+        function updateText() {
+            const newText = newTextInput.value;
+            if (newText) {
+                greetingElement.textContent = newText;
+            }
+        }
+        
+        // Toggle menu visibility
+        function toggleMenu() {
+            menuVisible = !menuVisible;
+            menuElement.style.display = menuVisible ? 'block' : 'none';
+        }
+        
+        // Event listeners
+        updateButton.addEventListener('click', updateText);
+        
+        // Keyboard event listener
+        document.addEventListener('keydown', function(event) {
+            if (event.key.toLowerCase() === 'q') {
+                toggleMenu();
+            }
+        });
+    </script>
+</body>
+</html>
