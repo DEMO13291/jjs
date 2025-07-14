@@ -5,104 +5,257 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Website</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f0f0f0;
+        /* Base Styles */
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4cc9f0;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --success-color: #4bb543;
+            --border-radius: 12px;
+            --box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark-color);
+            line-height: 1.6;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
+            padding: 2rem;
         }
         
-        #image-container {
-            margin: 20px 0;
-            max-width: 500px;
-            border: 3px solid #333;
-            border-radius: 10px;
+        /* Header Styles */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: fadeInDown 0.8s ease;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #4361ee, #3a0ca3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+        
+        .header p {
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
+        
+        /* Image Container */
+        .image-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 1.5rem auto;
+            border-radius: var(--border-radius);
             overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            animation: fadeIn 1s ease;
+            border: 5px solid white;
         }
         
-        #image-container img {
+        .image-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+        }
+        
+        .image-container img {
             width: 100%;
             height: auto;
             display: block;
+            transition: var(--transition);
         }
         
-        #greeting {
-            font-size: 24px;
-            margin: 20px 0;
-            padding: 10px;
+        /* Greeting Section */
+        .greeting {
             background-color: white;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 1.5rem 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin: 1.5rem 0;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            font-size: 1.3rem;
+            color: var(--secondary-color);
+            transition: var(--transition);
+            animation: fadeInUp 0.8s ease;
+            border-left: 5px solid var(--accent-color);
         }
         
-        #menu {
+        /* Menu Styles */
+        .menu {
             display: none;
             background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            margin-top: 20px;
-            width: 80%;
-            max-width: 500px;
-        }
-        
-        #menu h2 {
-            margin-top: 0;
-        }
-        
-        #new-text {
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin: 1.5rem auto;
             width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            max-width: 600px;
+            animation: fadeIn 0.5s ease;
         }
         
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
+        .menu h2 {
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
             text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 4px;
+            font-size: 1.5rem;
         }
         
-        #instructions {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #666;
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            font-size: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(76, 201, 240, 0.3);
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        /* Instructions */
+        .instructions {
+            text-align: center;
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
+            animation: fadeIn 1.2s ease;
+        }
+        
+        .instructions kbd {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .greeting {
+                padding: 1rem;
+                font-size: 1.1rem;
+            }
+            
+            .menu {
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Welcome to My Website</h1>
+    <header class="header">
+        <h1>Interactive Website</h1>
+        <p>Customize your experience with our interactive features</p>
+    </header>
     
-    <div id="image-container">
+    <div class="image-container">
         <!-- Replace with your actual image URL -->
-        <img src="https://via.placeholder.com/500x300" alt="Featured Image">
+        <img src="https://source.unsplash.com/random/600x400?technology" alt="Featured Image">
     </div>
     
-    <div id="greeting">Hi! Welcome to our website.</div>
+    <div class="greeting" id="greeting">Hi there! Welcome to our interactive website. Feel free to customize this message!</div>
     
-    <div id="menu">
-        <h2>Customize Text</h2>
-        <input type="text" id="new-text" placeholder="Enter new text...">
-        <button id="update-btn">Update Text</button>
+    <div class="menu" id="menu">
+        <h2>Customize Content</h2>
+        <div class="form-group">
+            <input type="text" class="form-control" id="new-text" placeholder="Enter your custom message...">
+        </div>
+        <button class="btn" id="update-btn">Update Message</button>
     </div>
     
-    <div id="instructions">Press 'Q' to show/hide the customization menu</div>
+    <div class="instructions">
+        Press <kbd>Q</kbd> to toggle the customization menu
+    </div>
     
     <script>
         // Track if menu is visible
@@ -116,9 +269,25 @@
         
         // Update text function
         function updateText() {
-            const newText = newTextInput.value;
+            const newText = newTextInput.value.trim();
             if (newText) {
                 greetingElement.textContent = newText;
+                newTextInput.value = '';
+                
+                // Add visual feedback
+                greetingElement.style.animation = 'none';
+                void greetingElement.offsetWidth; // Trigger reflow
+                greetingElement.style.animation = 'fadeInUp 0.5s ease';
+                
+                // Show success message
+                const originalText = greetingElement.textContent;
+                greetingElement.textContent = 'Message updated successfully!';
+                greetingElement.style.color = 'var(--success-color)';
+                
+                setTimeout(() => {
+                    greetingElement.textContent = originalText;
+                    greetingElement.style.color = '';
+                }, 1500);
             }
         }
         
@@ -126,15 +295,30 @@
         function toggleMenu() {
             menuVisible = !menuVisible;
             menuElement.style.display = menuVisible ? 'block' : 'none';
+            
+            // Add animation when showing
+            if (menuVisible) {
+                menuElement.style.animation = 'none';
+                void menuElement.offsetWidth; // Trigger reflow
+                menuElement.style.animation = 'fadeIn 0.3s ease';
+            }
         }
         
         // Event listeners
         updateButton.addEventListener('click', updateText);
         
-        // Keyboard event listener
+        // Also update when pressing Enter in the input field
+        newTextInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                updateText();
+            }
+        });
+        
+        // Keyboard event listener for Q key
         document.addEventListener('keydown', function(event) {
             if (event.key.toLowerCase() === 'q') {
                 toggleMenu();
+                event.preventDefault(); // Prevent default behavior
             }
         });
     </script>
